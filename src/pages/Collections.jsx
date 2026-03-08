@@ -299,11 +299,21 @@ export default function Collections() {
                 Collect the<br />
                 <span className="text-cyan-400">Future</span>
               </h2>
-              <p className="text-gray-400 text-lg max-w-xl mx-auto mb-10">
+              <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8">
                 Own a piece of the first autonomous ecosystem. Every asset is more than art — it's access, governance, and identity.
               </p>
-              <Link to="/community" className="btn bg-cyan-400 text-black hover:bg-cyan-300 border-none rounded-xl px-12 py-3 font-semibold text-base">
-                Join Community
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+                <input 
+                  type="email" 
+                  placeholder="Enter email for early access" 
+                  className="bg-white/5 border border-white/20 rounded-xl px-6 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 w-72"
+                />
+                <button className="btn bg-cyan-400 text-black hover:bg-cyan-300 border-none rounded-xl px-8 py-3 font-semibold text-base">
+                  Notify Me
+                </button>
+              </div>
+              <Link to="/community" className="text-gray-400 hover:text-white text-sm underline">
+                Or join community →
               </Link>
             </div>
           </div>
