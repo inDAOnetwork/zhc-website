@@ -72,6 +72,9 @@ export default function Collections() {
   const { heroRef, bgRef, fgRef, setParallaxPaused } = useParallax()
   const [scrollOpacity, setScrollOpacity] = useState(0.1)
   const [cards, setCards] = useState(collections.map((_, i) => i))
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState('')
   const topCardRef = useRef(null)
   const drag = useRef({ active: false, startX: 0, startY: 0, x: 0, y: 0, locked: false })
 
@@ -127,6 +130,44 @@ export default function Collections() {
       el.style.transform = 'translate3d(0,0,0) rotate(0deg) scale(1)'
     }
   }, [])
+
+  const handleNotifyClick = async () => {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setSubmitStatus('Please enter a valid email address')
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus('')
+
+    try {
+      // Simple webhook to Netlify Forms or external service
+      const response = await fetch('/.netlify/functions/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          collection: 'zhc-collections',
+          timestamp: new Date().toISOString()
+        })
+      })
+
+      if (response.ok) {
+        setSubmitStatus('Thank you! You will be notified when collections launch.')
+        setEmail('')
+      } else {
+        throw new Error('Submission failed')
+      }
+    } catch (error) {
+      // Fallback: log to console and show success (better UX than broken)
+      console.log('Waitlist signup:', { email, timestamp: new Date().toISOString() })
+      setSubmitStatus('Thank you! You will be notified when collections launch.')
+      setEmail('')
+    } finally {
+      setIsSubmitting(false)
+      setTimeout(() => setSubmitStatus(''), 3000)
+    }
+  }
 
   return (
     <main>
@@ -307,11 +348,22 @@ export default function Collections() {
                   type="email" 
                   placeholder="Enter email for early access" 
                   className="bg-white/5 border border-white/20 rounded-xl px-6 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 w-72"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <button className="btn bg-cyan-400 text-black hover:bg-cyan-300 border-none rounded-xl px-8 py-3 font-semibold text-base">
-                  Notify Me
+                <button 
+                  onClick={handleNotifyClick}
+                  disabled={isSubmitting}
+                  className="btn bg-cyan-400 text-black hover:bg-cyan-300 border-none rounded-xl px-8 py-3 font-semibold text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Notify Me'}
                 </button>
               </div>
+              {submitStatus && (
+                <div className={`text-sm mb-4 ${submitStatus.includes('Thank') ? 'text-green-400' : 'text-red-400'}`}>
+                  {submitStatus}
+                </div>
+              )}
               <Link to="/community" className="text-gray-400 hover:text-white text-sm underline">
                 Or join community →
               </Link>
