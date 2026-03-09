@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  background: url('/src/assets/bg.png') repeat-y center top;
+  background: url('/bg.png') repeat-y center top;
   background-size: 100% auto;
   color: #a6adbb;
   font-family: 'Montserrat', sans-serif;

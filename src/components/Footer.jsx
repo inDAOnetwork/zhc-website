@@ -19,7 +19,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-4">Navigate</h4>
             <div className="space-y-3">
-              {['Home', 'About', 'Services', 'Ecosystem', 'Contact'].map(page => (
+              {['Home', 'About', 'Technology', 'Ecosystem', 'Contact'].map(page => (
                 <Link key={page} to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
                       className="block text-gray-400 hover:text-white text-sm transition-colors">
                   {page}
