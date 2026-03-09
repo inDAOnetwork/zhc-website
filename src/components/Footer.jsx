@@ -42,11 +42,15 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-4">Community</h4>
             <div className="space-y-3">
-              {['Twitter / X', 'Discord', 'GitHub', 'Telegram'].map(item => (
-                <span key={item} className="block text-gray-400 hover:text-white text-sm cursor-pointer transition-colors">
-                  {item}
-                </span>
-              ))}
+              <span className="block text-gray-400 text-sm cursor-default">Twitter / X</span>
+              <span className="block text-gray-400 text-sm cursor-default">Discord</span>
+              <a href="https://github.com/clawtomato-code/ZHC" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="block text-gray-400 hover:text-white text-sm transition-colors">
+                GitHub
+              </a>
+              <span className="block text-gray-400 text-sm cursor-default">Telegram</span>
             </div>
           </div>
         </div>
