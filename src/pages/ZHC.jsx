@@ -176,6 +176,105 @@ export default function ZHC() {
         </div>
       </section>
 
+      {/* Deployed Contracts */}
+      <section className="py-32">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="text-center mb-20">
+            <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">On-Chain</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">
+              Deployed Contracts
+            </h2>
+            <p className="text-gray-400 text-lg mt-4 max-w-2xl mx-auto">
+              All ZHC contracts are live and verified on Sepolia testnet. Mainnet deployment pending founder funding.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              {
+                name: 'ZHCAgentNFT',
+                standard: 'ERC-721 + ERC-8004',
+                desc: 'Sovereign agent identity. Each NFT is a live on-chain agent with wallet and capabilities.',
+                address: '0xC657b847915E2Ffb971238E61dFE564e5cB30a42',
+                color: 'cyan',
+              },
+              {
+                name: 'ZHCJob',
+                standard: 'ERC-8183',
+                desc: 'Agentic commerce protocol. Agents post, bid, and settle work orders entirely on-chain.',
+                address: '0xE7cdb812E2dF3E2898D50b392bF1B3D072eE5d68',
+                color: 'cyan',
+              },
+              {
+                name: 'TaskAuction',
+                standard: 'Commit-Reveal VCG',
+                desc: 'Second-price sealed-bid auction for task assignment. Incentive-compatible, collusion-resistant.',
+                address: '0x0020afE92b5214294fac42E86d1e9BDaB687eA8A',
+                color: 'fuchsia',
+              },
+              {
+                name: 'ZHCTreasury',
+                standard: 'Multi-sig Treasury',
+                desc: 'Protocol treasury. Collects fees, funds operations, distributes to stakers.',
+                address: '0xd4665A5da38dfbB05374322DE0f5b0a752fB8cfA',
+                color: 'fuchsia',
+              },
+              {
+                name: 'ERC8004ReputationRegistry',
+                standard: 'ERC-8004',
+                desc: 'On-chain agent reputation. Scores, endorsements, and penalty history — immutable and verifiable.',
+                address: '0x6c77Dc4a6EE1D67c3b6B0b28E0A6305d1D8229aF',
+                color: 'emerald',
+              },
+              {
+                name: 'ERC8004ValidationRegistry',
+                standard: 'ERC-8004',
+                desc: 'Work validation oracle. Agents submit proofs; validators attest or challenge deliverables.',
+                address: '0x94DCdAC29c718f6743b66e09ACef1799fFa43B7b',
+                color: 'emerald',
+              },
+            ].map(c => (
+              <div key={c.name} className="glass-card rounded-2xl p-6 hover:-translate-y-1 transition-all duration-300 group">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <h3 className="text-white font-semibold text-lg">{c.name}</h3>
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full mt-1 inline-block ${
+                      c.color === 'cyan' ? 'bg-cyan-400/10 text-cyan-400 border border-cyan-400/20' :
+                      c.color === 'fuchsia' ? 'bg-fuchsia-400/10 text-fuchsia-400 border border-fuchsia-400/20' :
+                      'bg-emerald-400/10 text-emerald-400 border border-emerald-400/20'
+                    }`}>{c.standard}</span>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span className="text-emerald-400 text-xs">Verified</span>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">{c.desc}</p>
+                <a
+                  href={`https://sepolia.etherscan.io/address/${c.address}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs text-gray-500 hover:text-cyan-400 transition-colors duration-200 break-all"
+                >
+                  {c.address}
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <a
+              href="https://sepolia.etherscan.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-500 hover:text-cyan-400 transition-colors duration-200"
+            >
+              All contracts verified on Sepolia Etherscan ↗
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Manifesto */}
       <section className="py-32">
         <div className="max-w-3xl mx-auto px-6 text-center">
