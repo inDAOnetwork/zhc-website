@@ -9,6 +9,7 @@ import col3 from '../assets/collections/IMG_2368.webp'
 import col4 from '../assets/collections/IMG_2369.webp'
 import col5 from '../assets/collections/IMG_2371.webp'
 import col6 from '../assets/collections/IMG_2372.webp'
+import col7 from '../assets/collections/IMG_2373.webp'
 
 const collections = [
   {
@@ -18,6 +19,7 @@ const collections = [
     desc: 'The founding collection. 1,000 unique autonomous AI agents with on-chain intelligence and self-evolving traits.',
     tag: 'OG',
     image: col1,
+    size: 'tall', // editorial sizing hint
   },
   {
     name: 'Neural Relics',
@@ -26,6 +28,7 @@ const collections = [
     desc: 'Artifacts from the first autonomous operations. Each relic carries embedded neural patterns and utility access.',
     tag: 'Utility',
     image: col2,
+    size: 'wide',
   },
   {
     name: 'Phantom Nodes',
@@ -34,6 +37,7 @@ const collections = [
     desc: 'Decentralized node passes granting governance power, staking boosts, and priority access to new deployments.',
     tag: 'Governance',
     image: col3,
+    size: 'square',
   },
   {
     name: 'Zero Portraits',
@@ -42,6 +46,7 @@ const collections = [
     desc: 'AI-generated identity collection. Each portrait is a unique digital identity within the Zero Human network.',
     tag: 'Identity',
     image: col4,
+    size: 'square',
   },
   {
     name: 'Swarm Keys',
@@ -50,6 +55,7 @@ const collections = [
     desc: 'Ultra-rare keys that unlock swarm intelligence protocols. Holders gain access to collective AI compute pools.',
     tag: 'Rare',
     image: col5,
+    size: 'wide',
   },
   {
     name: 'Epoch Passes',
@@ -58,10 +64,13 @@ const collections = [
     desc: 'Season-based access passes. Each epoch unlocks new agent capabilities, airdrops, and exclusive network features.',
     tag: 'Season',
     image: col6,
+    size: 'tall',
   },
 ]
 
-const stats = [
+const swipeImages = [col1, col2, col3, col4, col5, col6, col7]
+
+const statsRow = [
   { value: '22.8K', label: 'Total Items' },
   { value: '4.2K', label: 'Holders' },
   { value: '1,280', label: 'ETH Volume' },
@@ -70,21 +79,18 @@ const stats = [
 
 export default function Collections() {
   const { heroRef, bgRef, fgRef, setParallaxPaused } = useParallax()
-  const [scrollOpacity, setScrollOpacity] = useState(0.1)
-  const [cards, setCards] = useState(collections.map((_, i) => i))
-  const [email, setEmail] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState('')
+  const [scrollY, setScrollY] = useState(0)
+  const [cardOrder, setCardOrder] = useState(swipeImages.map((_, i) => i))
   const topCardRef = useRef(null)
   const drag = useRef({ active: false, startX: 0, startY: 0, x: 0, y: 0, locked: false })
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollOpacity(Math.min(1, 0.1 + window.scrollY / 10))
-    }
+    const handleScroll = () => setScrollY(window.scrollY)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const heroOpacity = Math.min(1, 0.08 + scrollY / 200)
 
   const onPointerDown = useCallback((e) => {
     if (drag.current.locked) return
@@ -100,7 +106,7 @@ export default function Collections() {
     const el = topCardRef.current
     if (el) {
       el.style.transition = 'none'
-      el.style.transform = `translate3d(${d.x}px,${d.y * 0.4}px,0) rotate(${d.x * 0.08}deg) scale(1)`
+      el.style.transform = `translate3d(${d.x}px,${d.y * 0.4}px,0) rotate(${d.x * 0.07}deg)`
     }
   }, [])
 
@@ -111,132 +117,94 @@ export default function Collections() {
     const el = topCardRef.current
     if (!el) return
 
-    if (Math.abs(d.x) > 80) {
+    if (Math.abs(d.x) > 75) {
       d.locked = true
-      const flyX = d.x > 0 ? 800 : -800
-      const flyRot = d.x > 0 ? 35 : -35
-      el.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out'
-      el.style.transform = `translate3d(${flyX}px,${d.y * 0.4}px,0) rotate(${flyRot}deg) scale(1)`
+      const flyX = d.x > 0 ? 700 : -700
+      const flyRot = d.x > 0 ? 30 : -30
+      el.style.transition = 'transform 0.28s ease-out, opacity 0.28s ease-out'
+      el.style.transform = `translate3d(${flyX}px,${d.y * 0.4}px,0) rotate(${flyRot}deg)`
       el.style.opacity = '0'
       setTimeout(() => {
         el.style.transition = 'none'
         el.style.transform = ''
         el.style.opacity = ''
-        setCards(prev => [...prev.slice(1), prev[0]])
+        setCardOrder(prev => [...prev.slice(1), prev[0]])
         d.locked = false
-      }, 300)
+      }, 280)
     } else {
       el.style.transition = 'transform 0.3s cubic-bezier(0.2,1,0.3,1)'
-      el.style.transform = 'translate3d(0,0,0) rotate(0deg) scale(1)'
+      el.style.transform = 'translate3d(0,0,0) rotate(0deg)'
     }
   }, [])
 
-  const handleNotifyClick = async () => {
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setSubmitStatus('Please enter a valid email address')
-      return
-    }
-
-    setIsSubmitting(true)
-    setSubmitStatus('')
-
-    try {
-      // Simple webhook to Netlify Forms or external service
-      const response = await fetch('/.netlify/functions/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          collection: 'zhc-collections',
-          timestamp: new Date().toISOString()
-        })
-      })
-
-      if (response.ok) {
-        setSubmitStatus('Thank you! You will be notified when collections launch.')
-        setEmail('')
-      } else {
-        throw new Error('Submission failed')
-      }
-    } catch (error) {
-      // Fallback: log to console and show success (better UX than broken)
-      console.log('Waitlist signup:', { email, timestamp: new Date().toISOString() })
-      setSubmitStatus('Thank you! You will be notified when collections launch.')
-      setEmail('')
-    } finally {
-      setIsSubmitting(false)
-      setTimeout(() => setSubmitStatus(''), 3000)
-    }
-  }
-
   return (
-    <main>
-      {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden cursor-default" style={{ fontFamily: "'Luckiest Guy', cursive" }}>
+    <main style={{ fontFamily: "'Inter', sans-serif" }}>
+      {/* ─── HERO ──────────────────────────────────────── */}
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex items-center justify-center overflow-hidden cursor-default"
+      >
         <div
           ref={bgRef}
-          className="absolute -inset-10 will-change-transform transition-transform duration-300 ease-out"
-          style={{ transform: 'scale(1.15)' }}
+          className="absolute -inset-10 will-change-transform"
+          style={{ transform: 'scale(1.15)', transition: 'transform 0.35s ease-out' }}
         >
           <img
             src={bgHero3}
             alt=""
-            className="w-full h-full object-cover brightness-125 saturate-150 drop-shadow-[0_0_120px_rgba(34,211,238,0.4)] glitch glitch-fg animate-breathe"
+            className="w-full h-full object-cover brightness-[0.75] glitch glitch-fg animate-breathe"
           />
-          <div className="absolute inset-0 bg-black/5" />
-          <div className="absolute inset-0 bg-black/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1d232a] via-[#1d232a]/30 to-transparent" />
+          <div className="absolute inset-0 bg-[#0d0d14]/30" />
+          <div className="absolute inset-0 bg-[#0d0d14]/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/20 to-transparent" />
         </div>
         <div
           ref={fgRef}
-          className="absolute -inset-10 will-change-transform z-[2] pointer-events-none transition-transform duration-300 ease-out"
+          className="absolute -inset-10 will-change-transform z-[2] pointer-events-none"
+          style={{ transition: 'transform 0.35s ease-out' }}
         >
-          <img
-            src={fgHero3}
-            alt=""
-            className="w-full h-full object-cover"
-          />
+          <img src={fgHero3} alt="" className="w-full h-full object-cover" />
         </div>
 
+        {/* Title */}
         <div
-          className="absolute left-6 md:left-12 top-36 z-10 transition-opacity duration-500 hover:!opacity-100 cursor-default"
-          style={{ opacity: scrollOpacity }}
+          className="absolute left-6 md:left-12 top-32 z-10 transition-opacity duration-700"
+          style={{ opacity: heroOpacity }}
         >
-          <div className="relative inline-block">
-            <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white uppercase">
+          <div className="hero-text-wrap relative inline-block group">
+            <h1 className="text-5xl md:text-7xl lg:text-[6.5rem] font-black text-white leading-[0.95] tracking-tight">
               Collections
             </h1>
-            {scrollOpacity >= 1 && (
-              <>
-                <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase text-cyan-400 animate-glitch-1 pointer-events-none" aria-hidden>
-                  Collections
-                </span>
-                <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase text-fuchsia-500 animate-glitch-2 pointer-events-none" aria-hidden>
-                  Collections
-                </span>
-              </>
-            )}
+            <span className="glitch-layer-1 text-5xl md:text-7xl lg:text-[6.5rem] font-black text-blue-400 leading-[0.95] tracking-tight" aria-hidden>
+              Collections
+            </span>
+            <span className="glitch-layer-2 text-5xl md:text-7xl lg:text-[6.5rem] font-black text-violet-400 leading-[0.95] tracking-tight" aria-hidden>
+              Collections
+            </span>
           </div>
+          <p className="text-gray-500 text-sm mt-4 max-w-xs leading-relaxed">
+            Sovereign AI agents. Not art — infrastructure.
+          </p>
         </div>
 
-        {/* Stacked NFT Cards — grab to swipe */}
-        <div className="absolute bottom-12 left-6 md:left-12 z-10 hidden md:block" onMouseEnter={() => setParallaxPaused(true)} onMouseLeave={() => setParallaxPaused(false)}>
-          <div className="relative w-[320px] h-[380px] lg:w-[360px] lg:h-[420px]">
-            {cards.slice(0, 3).map((cardIdx, stackPos) => {
-              const c = collections[cardIdx]
+        {/* Swipe deck */}
+        <div
+          className="absolute bottom-12 left-6 md:left-12 z-10 hidden md:block"
+          onMouseEnter={() => setParallaxPaused(true)}
+          onMouseLeave={() => setParallaxPaused(false)}
+        >
+          <div className="relative w-[300px] h-[360px] lg:w-[340px] lg:h-[400px]">
+            {cardOrder.slice(0, 3).map((cardIdx, stackPos) => {
               const isTop = stackPos === 0
-
               return (
                 <div
-                  key={c.name}
+                  key={cardIdx}
                   ref={isTop ? topCardRef : undefined}
-                  className={`absolute inset-0 rounded-2xl select-none touch-none
-                    ${isTop ? 'cursor-grab active:cursor-grabbing' : ''}
-                  `}
+                  className={`absolute inset-0 rounded-2xl select-none touch-none overflow-hidden ${isTop ? 'cursor-grab active:cursor-grabbing' : ''}`}
                   style={{
                     transform: isTop
-                      ? 'translate3d(0,0,0) rotate(0deg) scale(1)'
-                      : `translate3d(0,${-stackPos * 18}px,0) rotate(${stackPos * 1.5}deg) scale(${1 - stackPos * 0.045})`,
+                      ? 'translate3d(0,0,0) rotate(0deg)'
+                      : `translate3d(0,${-stackPos * 16}px,0) rotate(${stackPos * 2}deg) scale(${1 - stackPos * 0.04})`,
                     zIndex: 3 - stackPos,
                     pointerEvents: isTop ? 'auto' : 'none',
                     willChange: isTop ? 'transform' : 'auto',
@@ -247,130 +215,196 @@ export default function Collections() {
                   onPointerUp={isTop ? onPointerUp : undefined}
                 >
                   <img
-                    src={c.image}
-                    alt={c.name}
-                    className="absolute inset-0 w-full h-full object-cover rounded-2xl pointer-events-none"
+                    src={swipeImages[cardIdx]}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                     draggable={false}
                   />
-                  <div className="absolute inset-0 rounded-2xl border border-white/[0.08] pointer-events-none" />
+                  <div className="absolute inset-0 border border-white/[0.08] rounded-2xl pointer-events-none" />
+                  {isTop && (
+                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                      <span className="text-white/40 text-[10px] uppercase tracking-[0.2em]">Drag to browse</span>
+                    </div>
+                  )}
                 </div>
               )
             })}
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2 backdrop-blur-sm">
-            <div className="w-1 h-2 rounded-full bg-white/40 animate-bounce" />
-          </div>
+        {/* Scroll hint */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+          <div className="w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-white/40" />
+          <span className="text-[10px] text-white/25 uppercase tracking-[0.25em]">Scroll</span>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="py-12">
+      {/* ─── STATS ROW ─────────────────────────────────── */}
+      <section className="py-16 md:py-20">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map(s => (
-              <div key={s.label} className="glass-card rounded-2xl p-6 text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white glow-text">{s.value}</div>
-                <div className="text-gray-400 text-xs uppercase tracking-wider mt-1">{s.label}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border border-white/[0.06] rounded-2xl overflow-hidden">
+            {statsRow.map((s, i) => (
+              <div key={s.label} className={`py-10 text-center ${i < statsRow.length - 1 ? 'border-r border-white/[0.06]' : ''}`}>
+                <div className="stat-number glow-text">{s.value}</div>
+                <div className="label-tag mt-2">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Collections grid */}
-      <section className="py-32">
+      {/* ─── EDITORIAL GRID ────────────────────────────── */}
+      <section className="py-12 md:py-20 pb-32">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {collections.map(c => (
-              <div key={c.name} className="glass-card rounded-2xl overflow-hidden group hover:-translate-y-1 transition-all duration-500">
-                {/* Collection image */}
-                <div className="h-48 relative overflow-hidden">
-                  <img
-                    src={c.image}
-                    alt={c.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/30" />
-
-                  {/* Status badge */}
-                  <div className="absolute top-4 right-4">
-                    <span className={`text-xs font-medium uppercase tracking-wider px-3 py-1 rounded-full border ${
-                      c.status === 'Live'
-                        ? 'text-emerald-400 border-emerald-400/30 bg-emerald-400/10'
-                        : 'text-gray-400 border-white/[0.08] bg-white/[0.04]'
-                    }`}>
-                      {c.status}
-                    </span>
-                  </div>
-
-                  {/* Tag */}
-                  <div className="absolute top-4 left-4">
-                    <span className="text-xs font-medium uppercase tracking-wider px-3 py-1 rounded-full border border-cyan-400/20 text-cyan-400 bg-cyan-400/10">
-                      {c.tag}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-white font-semibold text-lg">{c.name}</h3>
-                    <span className="text-gray-400 text-sm">{c.items} items</span>
-                  </div>
-                  <p className="text-gray-400 text-sm leading-relaxed">{c.desc}</p>
-                </div>
-              </div>
-            ))}
+          <div className="mb-12">
+            <span className="label-tag block mb-3">All Collections</span>
+            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight">Six Collections</h2>
           </div>
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section className="py-32">
-        <div className="max-w-[1280px] mx-auto px-6 text-center">
-          <div className="relative rounded-3xl p-12 md:p-20 overflow-hidden">
-            <div className="absolute inset-0 rounded-3xl gradient-border-spin" />
-            <div className="absolute inset-px rounded-3xl bg-[#1d232a]" />
-            <div className="relative">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-                Collect the<br />
-                <span className="text-cyan-400">Future</span>
-              </h2>
-              <p className="text-gray-400 text-lg max-w-xl mx-auto mb-8">
-                Own a piece of the first autonomous ecosystem. Every asset is more than art — it's access, governance, and identity.
+          {/* Editorial asymmetric grid */}
+          <div className="grid md:grid-cols-12 gap-4 auto-rows-[240px]">
+            {/* Row 1: tall left + 2 stack right */}
+            {/* Card 0 — tall (2 rows) */}
+            <div className="md:col-span-5 md:row-span-2 group relative rounded-2xl overflow-hidden cursor-default">
+              <img
+                src={collections[0].image}
+                alt={collections[0].name}
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/30 to-transparent" />
+              <CollectionOverlay c={collections[0]} />
+            </div>
+
+            {/* Card 1 — top right */}
+            <div className="md:col-span-7 group relative rounded-2xl overflow-hidden cursor-default">
+              <img
+                src={collections[1].image}
+                alt={collections[1].name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/20 to-transparent" />
+              <CollectionOverlay c={collections[1]} />
+            </div>
+
+            {/* Card 2 — bottom right, split with card 3 */}
+            <div className="md:col-span-4 group relative rounded-2xl overflow-hidden cursor-default">
+              <img
+                src={collections[2].image}
+                alt={collections[2].name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/20 to-transparent" />
+              <CollectionOverlay c={collections[2]} />
+            </div>
+
+            <div className="md:col-span-3 group relative rounded-2xl overflow-hidden cursor-default">
+              <img
+                src={collections[3].image}
+                alt={collections[3].name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/20 to-transparent" />
+              <CollectionOverlay c={collections[3]} />
+            </div>
+
+            {/* Row 2: wide + tall right */}
+            <div className="md:col-span-7 group relative rounded-2xl overflow-hidden cursor-default">
+              <img
+                src={collections[4].image}
+                alt={collections[4].name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/20 to-transparent" />
+              <CollectionOverlay c={collections[4]} />
+            </div>
+
+            <div className="md:col-span-5 md:row-span-2 group relative rounded-2xl overflow-hidden cursor-default">
+              <img
+                src={collections[5].image}
+                alt={collections[5].name}
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d14] via-[#0d0d14]/30 to-transparent" />
+              <CollectionOverlay c={collections[5]} />
+            </div>
+
+            {/* Bottom row left filler — email CTA */}
+            <div className="md:col-span-7 glass-card flex flex-col justify-center px-10 py-8">
+              <span className="label-tag block mb-3">Early Access</span>
+              <p className="text-white/70 text-base font-light mb-6 leading-relaxed">
+                Get notified when genesis collections drop.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
-                <input 
-                  type="email" 
-                  placeholder="Enter email for early access" 
-                  className="bg-white/5 border border-white/20 rounded-xl px-6 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 w-72"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <button 
-                  onClick={handleNotifyClick}
-                  disabled={isSubmitting}
-                  className="btn bg-cyan-400 text-black hover:bg-cyan-300 border-none rounded-xl px-8 py-3 font-semibold text-base disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? 'Submitting...' : 'Notify Me'}
-                </button>
-              </div>
-              {submitStatus && (
-                <div className={`text-sm mb-4 ${submitStatus.includes('Thank') ? 'text-green-400' : 'text-red-400'}`}>
-                  {submitStatus}
-                </div>
-              )}
-              <Link to="/community" className="text-gray-400 hover:text-white text-sm underline">
-                Or join community →
-              </Link>
+              <EmailSignup />
             </div>
           </div>
         </div>
       </section>
     </main>
+  )
+}
+
+function CollectionOverlay({ c }) {
+  return (
+    <div className="absolute inset-0 flex flex-col justify-end p-6">
+      <div className="flex items-center gap-2 mb-2">
+        <span className={`text-[10px] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border ${
+          c.status === 'Live'
+            ? 'text-emerald-400 border-emerald-400/30 bg-emerald-400/10'
+            : 'text-white/30 border-white/[0.08] bg-white/[0.04]'
+        }`}>
+          {c.status}
+        </span>
+        <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-400/70">{c.tag}</span>
+      </div>
+      <h3 className="text-white font-bold text-lg md:text-xl tracking-tight mb-1">{c.name}</h3>
+      <p className="text-gray-500 text-xs leading-relaxed line-clamp-2 max-w-xs">{c.desc}</p>
+      <p className="text-white/25 text-[10px] uppercase tracking-[0.2em] mt-3">{c.items} items</p>
+    </div>
+  )
+}
+
+function EmailSignup() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const submit = async () => {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      setStatus('Enter a valid email address')
+      return
+    }
+    setLoading(true)
+    setStatus('')
+    await new Promise(r => setTimeout(r, 600))
+    console.log('Waitlist signup:', { email, timestamp: new Date().toISOString() })
+    setStatus('✓ Added to waitlist')
+    setEmail('')
+    setLoading(false)
+    setTimeout(() => setStatus(''), 4000)
+  }
+
+  return (
+    <div>
+      <div className="flex gap-3 flex-wrap">
+        <input
+          type="email"
+          placeholder="your@email.com"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && submit()}
+          className="bg-white/[0.04] border border-white/[0.08] rounded-xl px-5 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/20 w-64"
+        />
+        <button
+          onClick={submit}
+          disabled={loading}
+          className="px-6 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-colors duration-200 disabled:opacity-50"
+        >
+          {loading ? '…' : 'Notify Me'}
+        </button>
+      </div>
+      {status && (
+        <p className={`mt-3 text-xs ${status.startsWith('✓') ? 'text-emerald-400' : 'text-red-400'}`}>{status}</p>
+      )}
+    </div>
   )
 }

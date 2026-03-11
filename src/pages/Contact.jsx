@@ -41,7 +41,7 @@ export default function Contact() {
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="relative py-32 overflow-hidden" style={{ fontFamily: "'Luckiest Guy', cursive" }}>
+      <section className="relative py-32 overflow-hidden" >
         <div className="relative max-w-[1280px] mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold text-white mt-4 mb-8">
             Contact
@@ -62,8 +62,8 @@ export default function Contact() {
               <h2 className="text-3xl font-bold text-white mb-8">Send a Message</h2>
               {submitted ? (
                 <div className="glass-card rounded-2xl p-10 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center">
-                    <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
@@ -84,7 +84,7 @@ export default function Contact() {
                       <input
                         type="text"
                         required
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-gray-600 focus:border-cyan-400/50 focus:outline-none transition-colors backdrop-blur-xl"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-gray-600 focus:border-blue-500/50 focus:outline-none transition-colors backdrop-blur-xl"
                         placeholder="Your name"
                       />
                     </div>
@@ -93,14 +93,14 @@ export default function Contact() {
                       <input
                         type="email"
                         required
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-gray-600 focus:border-cyan-400/50 focus:outline-none transition-colors backdrop-blur-xl"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-gray-600 focus:border-blue-500/50 focus:outline-none transition-colors backdrop-blur-xl"
                         placeholder="you@company.com"
                       />
                     </div>
                   </div>
                   <div>
                     <label className="block text-gray-400 text-sm mb-2">Subject</label>
-                    <select className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white focus:border-cyan-400/50 focus:outline-none transition-colors appearance-none backdrop-blur-xl">
+                    <select className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white focus:border-blue-500/50 focus:outline-none transition-colors appearance-none backdrop-blur-xl">
                       <option value="">Select a topic</option>
                       <option value="general">General Inquiry</option>
                       <option value="services">Services</option>
@@ -113,13 +113,13 @@ export default function Contact() {
                     <textarea
                       required
                       rows={5}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-gray-600 focus:border-cyan-400/50 focus:outline-none transition-colors resize-none backdrop-blur-xl"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-gray-600 focus:border-blue-500/50 focus:outline-none transition-colors resize-none backdrop-blur-xl"
                       placeholder="Tell us about your project..."
                     />
                   </div>
                   <button
                     type="submit"
-                    className="btn bg-cyan-400 text-black hover:bg-cyan-300 border-none rounded-xl px-10 font-semibold"
+                    className="btn bg-blue-500 text-black hover:bg-blue-400 border-none rounded-xl px-10 font-semibold"
                   >
                     Send Message
                   </button>
@@ -133,7 +133,7 @@ export default function Contact() {
               <div className="space-y-4 mb-12">
                 {contactInfo.map(item => (
                   <div key={item.label} className="glass-card rounded-xl p-6 flex items-center gap-5">
-                    <div className="w-12 h-12 rounded-xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
                       {item.icon}
                     </div>
                     <div>

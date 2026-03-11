@@ -53,7 +53,7 @@ export default function Ecosystem() {
   return (
     <main className="pt-20">
       {/* Hero */}
-      <section className="relative py-32 overflow-hidden" style={{ fontFamily: "'Luckiest Guy', cursive" }}>
+      <section className="relative py-32 overflow-hidden" >
         <div className="relative max-w-[1280px] mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold text-white mt-4 mb-8">
             Ecosystem
@@ -72,7 +72,7 @@ export default function Ecosystem() {
             {ecosystemItems.map(item => (
               <div key={item.title} className="glass-card rounded-2xl p-8 hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-start gap-5">
-                  <div className="w-14 h-14 rounded-xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 shrink-0">
+                  <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
                     {item.icon}
                   </div>
                   <div>
@@ -91,7 +91,7 @@ export default function Ecosystem() {
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">$ZHC Token</span>
+              <span className="text-blue-400 text-sm font-medium uppercase tracking-[0.3em]">$ZHC Token</span>
               <h2 className="text-4xl md:text-5xl font-bold text-white mt-4 mb-6">
                 Fuel The<br />Machine
               </h2>
@@ -133,7 +133,7 @@ export default function Ecosystem() {
       <section className="py-24">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">Community</span>
+            <span className="text-blue-400 text-sm font-medium uppercase tracking-[0.3em]">Community</span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">Growing Fast</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -151,7 +151,7 @@ export default function Ecosystem() {
       <section className="py-32">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">Partners</span>
+            <span className="text-blue-400 text-sm font-medium uppercase tracking-[0.3em]">Partners</span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">Trusted By Leaders</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -54,7 +54,7 @@ export default function Community() {
   return (
     <main>
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden cursor-default" style={{ fontFamily: "'Luckiest Guy', cursive" }}>
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden cursor-default" >
         <div
           ref={bgRef}
           className="absolute -inset-10 will-change-transform transition-transform duration-300 ease-out"
@@ -91,7 +91,7 @@ export default function Community() {
             </h1>
             {scrollOpacity >= 1 && (
               <>
-                <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase text-cyan-400 animate-glitch-1 pointer-events-none" aria-hidden>
+                <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase text-blue-400 animate-glitch-1 pointer-events-none" aria-hidden>
                   Community
                 </span>
                 <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase text-fuchsia-500 animate-glitch-2 pointer-events-none" aria-hidden>
@@ -136,7 +136,7 @@ export default function Community() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map(s => (
               <div key={s.label} className="glass-card rounded-2xl p-8 text-center">
-                <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">{s.value}</div>
+                <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">{s.value}</div>
                 <div className="text-gray-400 text-sm">{s.label}</div>
               </div>
             ))}
@@ -148,7 +148,7 @@ export default function Community() {
       <section className="py-32">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center mb-20">
-            <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">Connect</span>
+            <span className="text-blue-400 text-sm font-medium uppercase tracking-[0.3em]">Connect</span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">Find Us Everywhere</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -158,7 +158,7 @@ export default function Community() {
                 href={s.link}
                 className="glass-card rounded-2xl p-8 group hover:-translate-y-1 transition-all duration-300"
               >
-                <h3 className="text-white font-semibold text-xl mb-2 group-hover:text-cyan-400 transition-colors">{s.label}</h3>
+                <h3 className="text-white font-semibold text-xl mb-2 group-hover:text-blue-400 transition-colors">{s.label}</h3>
                 <p className="text-gray-400 leading-relaxed">{s.desc}</p>
               </a>
             ))}
@@ -179,7 +179,7 @@ export default function Community() {
               </p>
               <Link
                 to="/contact"
-                className="inline-block px-8 py-4 rounded-xl bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition-colors"
+                className="inline-block px-8 py-4 rounded-xl bg-blue-500 text-black font-semibold hover:bg-blue-400 transition-colors"
               >
                 Get Involved
               </Link>

@@ -57,7 +57,7 @@ export default function About() {
   return (
     <main>
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden cursor-default" style={{ fontFamily: "'Luckiest Guy', cursive" }}>
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden cursor-default" >
         <div
           ref={bgRef}
           className="absolute -inset-10 will-change-transform transition-transform duration-300 ease-out"
@@ -94,7 +94,7 @@ export default function About() {
             </h1>
             {scrollOpacity >= 1 && (
               <>
-                <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase whitespace-nowrap text-cyan-400 animate-glitch-1 pointer-events-none" aria-hidden>
+                <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase whitespace-nowrap text-blue-400 animate-glitch-1 pointer-events-none" aria-hidden>
                   About ZHC
                 </span>
                 <span className="absolute top-0 left-0 w-full h-full text-4xl md:text-6xl lg:text-8xl font-bold uppercase whitespace-nowrap text-fuchsia-500 animate-glitch-2 pointer-events-none" aria-hidden>
@@ -134,7 +134,7 @@ export default function About() {
             <div className="glass-card rounded-3xl p-10 glow-border">
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shrink-0" />
+                  <div className="w-3 h-3 rounded-full bg-blue-500 mt-2 shrink-0" />
                   <div>
                     <div className="text-white font-semibold mb-1">No CEO</div>
                     <div className="text-gray-400 text-sm">Strategic decisions made by consensus AI models</div>
@@ -171,13 +171,13 @@ export default function About() {
       <section className="py-32">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center mb-20">
-            <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">Core Values</span>
+            <span className="text-blue-400 text-sm font-medium uppercase tracking-[0.3em]">Core Values</span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">What Drives Us</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {values.map(v => (
               <div key={v.title} className="glass-card rounded-2xl p-8 group hover:-translate-y-1 transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-cyan-400/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-400/15 group-hover:scale-110 transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-500/15 group-hover:scale-110 transition-all duration-300">
                   {v.icon}
                 </div>
                 <h3 className="text-white font-semibold text-xl mb-3">{v.title}</h3>
@@ -192,7 +192,7 @@ export default function About() {
       <section className="py-32">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center mb-20">
-            <span className="text-cyan-400 text-sm font-medium uppercase tracking-[0.3em]">Timeline</span>
+            <span className="text-blue-400 text-sm font-medium uppercase tracking-[0.3em]">Timeline</span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mt-4">Our Journey</h2>
           </div>
           <div className="relative">
@@ -201,12 +201,12 @@ export default function About() {
               {timeline.map((item, i) => (
                 <div key={i} className="flex gap-8">
                   <div className="relative shrink-0">
-                    <div className="w-11 h-11 rounded-full bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full bg-cyan-400" />
+                    <div className="w-11 h-11 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center">
+                      <div className="w-3 h-3 rounded-full bg-blue-500" />
                     </div>
                   </div>
                   <div className="pb-2">
-                    <span className="text-cyan-400 text-sm font-medium">{item.year}</span>
+                    <span className="text-blue-400 text-sm font-medium">{item.year}</span>
                     <h3 className="text-white text-xl font-semibold mt-1 mb-2">{item.title}</h3>
                     <p className="text-gray-400">{item.desc}</p>
                   </div>

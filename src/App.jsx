@@ -11,6 +11,7 @@ import Contact from './pages/Contact'
 import Community from './pages/Community'
 import ZHC from './pages/ZHC'
 import Collections from './pages/Collections'
+import Docs from './pages/Docs'
 
 function App() {
   const location = useLocation()
@@ -35,6 +36,7 @@ function App() {
           <Route path="/collections" element={<Collections />} />
           <Route path="/community" element={<Community />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/docs" element={<Docs />} />
         </Routes>
         <Footer />
       </div>
